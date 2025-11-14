@@ -4,6 +4,7 @@ kotlin = "1.9.25"
 gradle = "8.3.2"
 coroutines = "1.9.0"
 dagger = "2.51.1"
+hilt-navigation-compose = "1.2.0"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 androidx-lifecycle = "2.8.7"
@@ -48,6 +49,7 @@ hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "dagger" }
 hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 
 # Test
 junit = { group = "junit", name = "junit", version.ref = "junit" }

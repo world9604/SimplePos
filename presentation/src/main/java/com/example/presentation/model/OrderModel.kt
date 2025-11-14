@@ -6,7 +6,7 @@ import com.example.domain.model.Order
 data class OrderModel (
     val id: String,
     val price: Long,
-    val items: List<CartItemModel>
+    val items: List<MenuItemModel>
 )
 
 fun Order.toPresentation(): OrderModel = OrderModel(
