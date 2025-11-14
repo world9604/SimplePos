@@ -49,10 +49,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+    implementation(libs.androidx.multidex)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.coroutines.android)
 }

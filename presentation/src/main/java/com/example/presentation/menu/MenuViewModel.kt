@@ -2,6 +2,7 @@ package com.example.presentation.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.usecase.GetMenuItemsUseCase
 import com.example.presentation.model.MenuItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
