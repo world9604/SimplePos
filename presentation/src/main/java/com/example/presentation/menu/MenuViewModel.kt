@@ -4,20 +4,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.GetMenuItemsUseCase
 import com.example.presentation.model.MenuItemModel
+import com.example.presentation.model.toPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.example.data_resource.collectDataResource
+import com.example.data_resource.mapListDataResource
+import com.example.domain.usecase.CalculateTotalAmountUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
     // TODO: Implement and inject UseCases
-    private val addToOrderUseCase: AddToOrderUseCase,
-    private val getOrderItemsUseCase: GetOrderItemsUseCase,
+    //private val addToOrderUseCase: AddToOrderUseCase,
+    private val getOrderItemsUseCase: List<MenuItemModel> = emptyList<MenuItemModel>(),
     private val getMenuItemsUseCase: GetMenuItemsUseCase,
-    private val calculateTotalAmountUseCase: CalculateTotalAmountUseCase,
+    private val calculateTotalAmountUseCase: Long = 0L,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MenuUiState>(MenuUiState.Loading)
@@ -29,23 +33,32 @@ class MenuViewModel @Inject constructor(
 
     private fun loadMenuItems() {
         viewModelScope.launch {
-            try {
-                val updatedOrderItems = getMenuItemsUseCase()
-                val newTotalAmount = calculateTotalAmountUseCase()
+            getMenuItemsUseCase()
+                .mapListDataResource { it.toPresentation() }
+                .collectDataResource(
+                    onSuccess = { menuItems ->
+                        val orderItems = getOrderItemsUseCase
+                        val totalAmount = calculateTotalAmountUseCase
 
-                _uiState.update {
-                    MenuUiState.Success(
-                        orderItems = updatedOrderItems,
-                        totalAmount = newTotalAmount
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.update {
-                    MenuUiState.Error(
-                        message = e.message ?: "Unknown error occurred"
-                    )
-                }
-            }
+                        _uiState.update {
+                            MenuUiState.Success(
+                                menuItems = menuItems,
+                                orderItems = orderItems,
+                                totalAmount = totalAmount
+                            )
+                        }
+                    },
+                    onError = { error ->
+                        _uiState.update {
+                            MenuUiState.Error(
+                                message = error.message ?: "Unknown error occurred"
+                            )
+                        }
+                    },
+                    onLoading = {
+                        _uiState.value = MenuUiState.Loading
+                    }
+                )
         }
     }
 
@@ -55,11 +68,11 @@ class MenuViewModel @Inject constructor(
     fun addToOrder(item: MenuItemModel) {
         viewModelScope.launch {
             try {
-                addToOrderUseCase(item)
+                //addToOrderUseCase(item)
 
                 val currentState = _uiState.value
                 if (currentState is MenuUiState.Success) {
-                    val updatedOrder = getOrderItemsUseCase()
+                    val updatedOrder = getOrderItemsUseCase
 
                     _uiState.update {
                         currentState.copy(
@@ -80,7 +93,7 @@ class MenuViewModel @Inject constructor(
     /**
      * Remove item from order
      */
-    fun removeFromOrder(itemId: String) {
+    fun removeFromOrder(itemId: Int) {
         viewModelScope.launch {
             try {
                 val currentState = _uiState.value

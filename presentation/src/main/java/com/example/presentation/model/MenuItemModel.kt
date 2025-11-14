@@ -3,7 +3,7 @@ package com.example.presentation.model
 import com.example.domain.model.MenuItem
 
 data class MenuItemModel (
-    val id: String,
+    val id: Int,
     val name: String,
     val quantity: Int,
     val price: Int,

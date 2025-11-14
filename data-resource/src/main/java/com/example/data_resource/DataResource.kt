@@ -1,4 +1,5 @@
-package ted.gun0912.movie.data_resource
+package com.example.data_resource
+
 
 sealed class DataResource<out T> {
     class Success<T>(val data: T) : DataResource<T>()

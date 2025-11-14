@@ -1,4 +1,4 @@
-package ted.gun0912.movie.data_resource
+package com.example.data_resource
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

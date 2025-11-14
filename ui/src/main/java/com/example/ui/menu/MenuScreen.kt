@@ -94,7 +94,7 @@ private fun LoadingContent() {
 private fun SuccessContent(
     state: MenuUiState.Success,
     onItemClick: (MenuItemModel) -> Unit,
-    onRemoveItem: (String) -> Unit,
+    onRemoveItem: (Int) -> Unit,
     onClearCart: () -> Unit
 ) {
     Column(
@@ -231,7 +231,7 @@ private fun MenuItemCard(
 private fun CartSummary(
     items: List<MenuItemModel>,
     total: Long,
-    onRemoveItem: (String) -> Unit,
+    onRemoveItem: (Int) -> Unit,
     onClearCart: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -393,7 +393,7 @@ private fun SuccessContentPreview() {
             state = MenuUiState.Success(
                 menuItems = listOf(
                     MenuItemModel(
-                        id = "1",
+                        id = 1,
                         name = "Americano",
                         quantity = 10,
                         price = 4500,
@@ -401,7 +401,7 @@ private fun SuccessContentPreview() {
                         imageUrl = null
                     ),
                     MenuItemModel(
-                        id = "2",
+                        id = 2,
                         name = "Latte",
                         quantity = 8,
                         price = 5000,
@@ -409,7 +409,7 @@ private fun SuccessContentPreview() {
                         imageUrl = null
                     ),
                     MenuItemModel(
-                        id = "3",
+                        id = 3,
                         name = "Lemon Ade",
                         quantity = 5,
                         price = 5500,
@@ -419,7 +419,7 @@ private fun SuccessContentPreview() {
                 ),
                 orderItems = listOf(
                     MenuItemModel(
-                        id = "1",
+                        id = 1,
                         name = "Americano",
                         quantity = 2,
                         price = 4500,
