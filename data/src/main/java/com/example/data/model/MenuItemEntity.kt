@@ -1,14 +1,13 @@
 package com.example.data.model
 
-import com.example.domain.model.Category
 import com.example.domain.model.MenuItem
 
 data class MenuItemEntity (
-    val id: String,
+    val id: Int,
     val name: String,
     val quantity: Int,
     val price: Int,
-    val category: Category,
+    val category: CategoryEntity,
     val imageUrl: String? = null
 )
 
@@ -17,6 +16,6 @@ fun MenuItem.toData(): MenuItemEntity = MenuItemEntity(
     name,
     quantity,
     price,
-    category,
+    category.toData(),
     imageUrl
 )

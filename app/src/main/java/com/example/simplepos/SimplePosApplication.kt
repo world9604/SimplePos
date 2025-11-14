@@ -1,10 +1,11 @@
 package com.example.simplepos
 
 import androidx.annotation.CallSuper
+import androidx.multidex.MultiDexApplication
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class SimplePosApplication: MutableDexApplication() {
+class SimplePosApplication: MultiDexApplication() {
 
     val baseUrl: String
         get() = "https://api.themoviedb.org/3/"

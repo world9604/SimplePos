@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     implementation(projects.domain)
+    implementation(projects.dataResource)
 }
