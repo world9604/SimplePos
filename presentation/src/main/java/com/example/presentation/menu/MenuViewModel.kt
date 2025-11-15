@@ -12,17 +12,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.example.data_resource.collectDataResource
 import com.example.data_resource.mapListDataResource
-import com.example.domain.usecase.CalculateTotalAmountUseCase
+import com.example.data_resource.mapDataResource
+import com.example.data_resource.flatMapDataResource
+import com.example.domain.usecase.AddToOrderUseCase
+import com.example.domain.usecase.GetOrderUseCase
+import com.example.presentation.model.toDomain
 import javax.inject.Inject
+
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
-    // TODO: Implement and inject UseCases
-    //private val addToOrderUseCase: AddToOrderUseCase,
-    private val getOrderItemsUseCase: List<MenuItemModel> = emptyList<MenuItemModel>(),
+    private val addToOrderUseCase: AddToOrderUseCase,
+    private val getOrderUseCase: GetOrderUseCase,
     private val getMenuItemsUseCase: GetMenuItemsUseCase,
-    private val calculateTotalAmountUseCase: Long = 0L,
 ) : ViewModel() {
+
+    private val CURRENT_ORDER_ID = 1
 
     private val _uiState = MutableStateFlow<MenuUiState>(MenuUiState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -35,16 +40,20 @@ class MenuViewModel @Inject constructor(
         viewModelScope.launch {
             getMenuItemsUseCase()
                 .mapListDataResource { it.toPresentation() }
+                .flatMapDataResource { menuItems ->
+                    //todo : orderId는 결제가 이루어 질 때마다, 값이 변경 되어야 함
+                    getOrderUseCase(CURRENT_ORDER_ID)
+                        .mapDataResource { order ->
+                            menuItems to order.toPresentation()
+                        }
+                }
                 .collectDataResource(
-                    onSuccess = { menuItems ->
-                        val orderItems = getOrderItemsUseCase
-                        val totalAmount = calculateTotalAmountUseCase
-
+                    onSuccess = { (menuItems, order) ->
                         _uiState.update {
                             MenuUiState.Success(
                                 menuItems = menuItems,
-                                orderItems = orderItems,
-                                totalAmount = totalAmount
+                                orderItems = order.items,
+                                totalAmount = order.price
                             )
                         }
                     },
@@ -68,11 +77,11 @@ class MenuViewModel @Inject constructor(
     fun addToOrder(item: MenuItemModel) {
         viewModelScope.launch {
             try {
-                //addToOrderUseCase(item)
+                addToOrderUseCase(CURRENT_ORDER_ID, item.toDomain())
 
                 val currentState = _uiState.value
                 if (currentState is MenuUiState.Success) {
-                    val updatedOrder = getOrderItemsUseCase
+                    val updatedOrder = getOrderUseCase(CURRENT_ORDER_ID)
 
                     _uiState.update {
                         currentState.copy(

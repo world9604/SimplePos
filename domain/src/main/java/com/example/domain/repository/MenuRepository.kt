@@ -6,7 +6,7 @@ import com.example.data_resource.DataResource
 
 interface MenuRepository {
 
-    fun getMenu(menuId: Int): MenuItem
+    fun getMenu(menuId: Int): Flow<DataResource<MenuItem>>
 
     fun getMenuItems(): Flow<DataResource<List<MenuItem>>>
 }

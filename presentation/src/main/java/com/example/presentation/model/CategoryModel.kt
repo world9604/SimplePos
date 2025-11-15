@@ -10,3 +10,5 @@ enum class CategoryModel(val displayName: String) {
 }
 
 fun Category.toPresentation(): CategoryModel = CategoryModel.valueOf(this.name)
+
+fun CategoryModel.toDomain(): Category = Category.valueOf(this.name)

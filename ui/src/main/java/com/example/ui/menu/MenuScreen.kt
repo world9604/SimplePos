@@ -415,6 +415,14 @@ private fun SuccessContentPreview() {
                         price = 5500,
                         category = CategoryModel.ADE,
                         imageUrl = null
+                    ),
+                    MenuItemModel(
+                        id = 4,
+                        name = "essopresso",
+                        quantity = 5,
+                        price = 5500,
+                        category = CategoryModel.COFFEE,
+                        imageUrl = null
                     )
                 ),
                 orderItems = listOf(

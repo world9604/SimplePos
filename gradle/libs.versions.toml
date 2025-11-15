@@ -23,12 +23,17 @@ retrofit = "2.11.0"
 
 gson = "2.10.1"
 androidx-multidex = "2.0.1"
+androidx-room = "2.6.1"
+
 
 [libraries]
 androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "androidx-multidex" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
+
+androidx-room = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

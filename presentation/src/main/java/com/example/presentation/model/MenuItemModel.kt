@@ -19,3 +19,12 @@ fun MenuItem.toPresentation(): MenuItemModel = MenuItemModel(
     category.toPresentation(),
     imageUrl
 )
+
+fun MenuItemModel.toDomain(): MenuItem = MenuItem(
+    id,
+    name,
+    quantity,
+    price,
+    category.toDomain(),
+    imageUrl
+)

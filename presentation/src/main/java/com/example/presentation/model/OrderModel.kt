@@ -4,7 +4,7 @@ import com.example.domain.model.Order
 
 
 data class OrderModel (
-    val id: String,
+    val id: Int,
     val price: Long,
     val items: List<MenuItemModel>
 )
